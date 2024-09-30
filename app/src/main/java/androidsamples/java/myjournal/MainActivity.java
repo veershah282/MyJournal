@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
-
+//Testing branching and main
 public class MainActivity extends AppCompatActivity {
 
     private JournalViewModel mJournalViewModel;
