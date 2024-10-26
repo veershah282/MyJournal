@@ -19,6 +19,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private JournalViewModel mJournalViewModel;
+    private static final int REQUEST_CODE = 2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,22 +40,22 @@ public class MainActivity extends AppCompatActivity {
                 .get(JournalViewModel.class);
         mJournalViewModel.getAllEntries()
                 .observe(this,
-                        (List<JournalEntity> entries) -> adapter.setEntries(entries));
+                        (List<JournalEntry> entries) -> adapter.setEntries(entries));
     }
 
     /** @noinspection deprecation*/
     public void launchAddEntryActivity(View view) {
         Intent intent = new Intent(this, AddEntry.class);
-        startActivityForResult(intent, 2);
+        startActivityForResult(intent, REQUEST_CODE);
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 2 && resultCode == RESULT_OK) {
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
             if (data != null) {
                 String title = data.getStringExtra("Title");
                 int dur = data.getIntExtra("Dur", 0);
-                mJournalViewModel.insert(new JournalEntity(title, dur));
+                mJournalViewModel.insert(new JournalEntry(title, dur));
             }
         }
     }

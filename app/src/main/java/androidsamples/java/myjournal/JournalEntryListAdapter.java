@@ -14,20 +14,17 @@ import java.util.List;
 public class JournalEntryListAdapter
         extends RecyclerView.Adapter<JournalEntryListAdapter.EntryViewHolder> {
 
-    private TextView mTxtTitle;
-    private TextView mTxtDuration;
     private final LayoutInflater mInflater;
-    private List<JournalEntity> mEntries;
+    private List<JournalEntry> mEntries;
 
     public JournalEntryListAdapter(Context context) {
         mInflater = LayoutInflater.from(context);
     }
 
-    @NonNull
-    @Override
+    @NonNull @Override
     public EntryViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
                                               int viewType) {
-        View itemView = mInflater.inflate(R.layout.journal_item,
+        View itemView = mInflater.inflate(R.layout.view_holder,
                 parent,
                 false);
         return new EntryViewHolder(itemView);
@@ -37,9 +34,9 @@ public class JournalEntryListAdapter
     public void onBindViewHolder(@NonNull EntryViewHolder holder,
                                  int position) {
         if (mEntries != null) {
-            JournalEntity current = mEntries.get(position);
-            holder.mTxtTitle.setText(current.title());
-            holder.mTxtDuration.setText(Integer.toString(current.dur()));
+            JournalEntry current = mEntries.get(position);
+            holder.mTxtTitle.setText(current.getTitle());
+            holder.mTxtDuration.setText(Integer.toString(current.getDuration()));
         }
     }
 
@@ -60,7 +57,7 @@ public class JournalEntryListAdapter
             return (mEntries == null) ? 0 : mEntries.size();
         }
 
-        public void setEntries(List<JournalEntity> entries) {
+        public void setEntries(List<JournalEntry> entries) {
             mEntries = entries;
             notifyDataSetChanged();
     }

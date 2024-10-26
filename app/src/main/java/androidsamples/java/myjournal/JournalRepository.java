@@ -14,32 +14,30 @@ import java.util.concurrent.Executors;
 public class JournalRepository {
     private static final String DB_TABLE= "journal_table";
     private final JournalEntryDao mJournalEntryDao;
-    private static JournalRepository instance;
+    private static JournalRepository sinstance;
     private final Executor mexecutor = Executors.newSingleThreadExecutor();
-    //why shouldn't this be private;
-    public JournalRepository(Context context){
+
+    private JournalRepository(Context context){
        JournalDatabase db = Room.databaseBuilder(
-               context.getApplicationContext(),
-               JournalDatabase.class,
-               DB_TABLE
-       ).build();
-    mJournalEntryDao = db.journalentryDao();
-    //now you can access all of dao methods through mJournalEntryDao;
+                           context.getApplicationContext(),
+                           JournalDatabase.class,
+                           DB_TABLE
+                            ).build();
+        mJournalEntryDao = db.journalentryDao();
+        //now you can access all of dao methods through mJournalEntryDao;
     }
     public static void init(Context context){
-        if(instance==null)
-            instance= new JournalRepository(context);
-
+        if(sinstance==null) sinstance = new JournalRepository(context);
     }
     public static JournalRepository getInstance(){
-        if(instance==null)
-            Log.d("JournalRepository", "I don't know at this point");
-        return instance;
+        if(sinstance==null)
+            throw new IllegalStateException("Repository not initialized");
+        return sinstance;
     }
-    public LiveData<List<JournalEntity>> getAllEntries(){
+    public LiveData<List<JournalEntry>> getAllEntries(){
         return mJournalEntryDao.getAllEntries();
     }
-    public void insert(JournalEntity entry)
+    public void insert(JournalEntry entry)
     {
         mexecutor.execute(()->mJournalEntryDao.insert(entry));
     }

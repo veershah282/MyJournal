@@ -12,11 +12,11 @@ public class JournalViewModel extends ViewModel {
             mRepository = JournalRepository.getInstance();
         }
 
-        public LiveData<List<JournalEntity>> getAllEntries() {
+        public LiveData<List<JournalEntry>> getAllEntries() {
             return mRepository.getAllEntries();
         }
 
-        public void insert(JournalEntity entry) {
+        public void insert(JournalEntry entry) {
             mRepository.insert(entry);
         }
     }

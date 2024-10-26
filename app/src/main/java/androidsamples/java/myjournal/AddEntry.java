@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,6 +36,9 @@ public class AddEntry extends AppCompatActivity {
 
     public void launchMainActivity(View view) {
         String title = mTxtTitle.getText().toString();
+        if(title == null){
+            Toast.makeText(this, "Title cannot be empty", Toast.LENGTH_SHORT).show();
+        }
         int dur = Integer.parseInt(mTxtDuration.getText().toString());
         Intent resultIntent = new Intent();
         resultIntent.putExtra("Title", title);

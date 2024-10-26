@@ -10,17 +10,12 @@ import java.util.UUID;
 
 public class JournalTypeConverters {
     @TypeConverter
-    public String fromUUID(@NonNull UUID uuid)
-    {
-        return uuid.toString();
-    }
-
-    @TypeConverter
-    public UUID toUUID(@NonNull String uuid)
-    {
+    public UUID toUUID(@NonNull String uuid) {
         return UUID.fromString(uuid);
     }
 
-
-
+    @TypeConverter
+    public String fromUUID(@NonNull UUID uuid) {
+        return uuid.toString();
+    }
 }

@@ -8,10 +8,10 @@ import androidx.room.Query;
 import java.util.List;
 
 @Dao
-public interface JournalEntryDao{
+public interface JournalEntryDao {
     @Insert
-    public void insert(JournalEntity J);
+    void insert(JournalEntry entry);
 
-    @Query("Select* from journal_table order by dur ASC")
-    public LiveData<List<JournalEntity>> getAllEntries();
+    @Query("SELECT * from journal_table ORDER BY title ASC")
+    LiveData<List<JournalEntry>> getAllEntries();
 }
