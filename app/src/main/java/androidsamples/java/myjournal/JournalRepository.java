@@ -22,7 +22,9 @@ public class JournalRepository {
                            context.getApplicationContext(),
                            JournalDatabase.class,
                            DB_TABLE
-                            ).build();
+                            )
+               .fallbackToDestructiveMigration()
+               .build();
         mJournalEntryDao = db.journalentryDao();
         //now you can access all of dao methods through mJournalEntryDao;
     }

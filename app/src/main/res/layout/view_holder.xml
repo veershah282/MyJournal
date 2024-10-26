@@ -5,7 +5,8 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/green">
+
+    android:padding="5sp">
 
 
         <TextView
@@ -13,7 +14,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Title"
-            android:textSize="24sp"/>
+            android:textSize="24sp"
+            android:background="@color/green"/>
 
         <TextView
             android:id="@+id/txt_item_duration"
@@ -21,5 +23,6 @@
             android:layout_height="wrap_content"
             android:text="Duration"
             android:textStyle="italic"
+            android:background="@color/green"
             />
 </LinearLayout>
