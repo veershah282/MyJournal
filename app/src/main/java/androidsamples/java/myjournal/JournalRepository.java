@@ -8,6 +8,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -42,6 +43,13 @@ public class JournalRepository {
     public void insert(JournalEntry entry)
     {
         mexecutor.execute(()->mJournalEntryDao.insert(entry));
+    }
+    public void update(JournalEntry entry) {
+        mexecutor.execute(() -> mJournalEntryDao.update(entry));
+    }
+
+    public LiveData<JournalEntry> getEntry(UUID id) {
+        return mJournalEntryDao.getEntry(id);
     }
 
 }

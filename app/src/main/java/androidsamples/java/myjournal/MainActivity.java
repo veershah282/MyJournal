@@ -10,53 +10,57 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
-//Testing branching and main
-public class MainActivity extends AppCompatActivity {
+import java.util.UUID;
 
-    private JournalViewModel mJournalViewModel;
+//Testing branching and main
+public class MainActivity extends AppCompatActivity
+        implements EntryListFragment.Callbacks {
+
+
+
     private static final int REQUEST_CODE = 2;
+    public static final String KEY_ENTRY_ID = "KEY_ENTRY_ID";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+        Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+        v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+        return insets;});
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        JournalEntryListAdapter adapter = new JournalEntryListAdapter(this);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        mJournalViewModel = new ViewModelProvider(this)
-                .get(JournalViewModel.class);
-        mJournalViewModel.getAllEntries()
-                .observe(this,
-                        (List<JournalEntry> entries) -> adapter.setEntries(entries));
-    }
-
-    /** @noinspection deprecation*/
-    public void launchAddEntryActivity(View view) {
-        Intent intent = new Intent(this, AddEntry.class);
-        startActivityForResult(intent, REQUEST_CODE);
-    }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
-            if (data != null) {
-                String title = data.getStringExtra("Title");
-                int dur = data.getIntExtra("Dur", 0);
-                mJournalViewModel.insert(new JournalEntry(title, dur));
-            }
+        Fragment currentFragment = getSupportFragmentManager()
+            .findFragmentById(R.id.fragment_container_view);
+        if (currentFragment == null) {
+        Fragment fragment = new EntryListFragment();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragment_container_view, fragment)
+                .commit();
         }
     }
+    @Override
+    public void onEntrySelected (UUID entryId){
+        Bundle args = new Bundle();
+        args.putSerializable(KEY_ENTRY_ID, entryId);
+
+        Fragment fragment = new EntryDetailsFragment();
+        fragment.setArguments(args);
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container_view, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
 }

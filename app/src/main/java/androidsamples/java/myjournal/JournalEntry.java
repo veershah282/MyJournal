@@ -21,6 +21,7 @@ public class JournalEntry {
     @ColumnInfo(name = "duration")
     private int mDuration;
 
+
     public JournalEntry(@NonNull String title, int duration) {
         mUid = UUID.randomUUID();
         mTitle = title;
@@ -43,8 +44,6 @@ public class JournalEntry {
     public void setDuration(int duration) {
         mDuration = duration;
     }
-    public void setUid(@NonNull UUID uid) {
-        mUid = uid;
-    }
+    public void setUid(@NonNull UUID uid) { mUid = uid; }
 
 }
